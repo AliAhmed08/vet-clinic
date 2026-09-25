@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>سجل المبيعات</title>
+    <style>
+        @import url("./style.css");
+
+        .sales-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 12px;
+        }
+
+        .sale-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-lg);
+            padding: 18px 20px;
+            cursor: pointer;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-shadow: var(--shadow-xs);
+
+            transition: transform var(--t-base) var(--ease), box-shadow var(--t-base) var(--ease), border-color var(--t-base) var(--ease);
+        }
+
+        .sale-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-soft-border);
+        }
+
+        .sale-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .sale-number {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+
+        .sale-date {
+            color: var(--text-tertiary);
+            font-size: 12.5px;
+        }
+
+        .sale-total {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* MODAL */
+        .modal-content {
+            width: 700px;
+            max-width: 95%;
+            padding: 28px 30px;
+        }
+
+        .invoice-total {
+            margin-top: 24px;
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .actions button {
+            border: none;
+            padding: 10px 18px;
+            border-radius: var(--r-sm);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .actions button:first-child {
+            background: var(--primary);
+            color: white;
+        }
+
+        .actions .danger {
+            background: var(--danger);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="./images/icon.png" alt="logo">
+            </div>
+
+            <ul class="menu">
+                <a href="./index.html">
+                    <li>
+                        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M8 19a4 4 0 0 1-4-4V6a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v3a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V6a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v9a4 4 0 0 1-4 4Z" />
+                                <circle cx="8" cy="19" r="2" />
+                                <circle cx="16" cy="19" r="2" />
+                            </svg></span>
+                        الزيارات
+                    </li>
+                </a>
+                <a href="./vaccinations.html">
+                    <li>
+                        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m18 2 4 4" />
+                                <path d="m17 7 3-3" />
+                                <path d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5" />
+                                <path d="m9 11 4 4" />
+                                <path d="m5 19-1.5 1.5" />
+                                <path d="m14.5 3.5 6 6" />
+                            </svg></span>
+                        التطعيمات
+                    </li>
+                </a>
+                <a href="./animals.html">
+                    <li>
+                        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M10 5.172C10 3.782 8.423 2.679 6.5 3c-2.823.47-4.113 6.006-4 7 .08.703 1.725 1.722 3.656 1 1.261-.472 1.96-1.45 2.344-2.344" />
+                                <path
+                                    d="M14.267 5.172c0-1.39 1.577-2.493 3.5-2.172 2.823.47 4.113 6.006 4 7-.08.703-1.725 1.722-3.656 1-1.261-.472-1.855-1.45-2.239-2.344" />
+                                <path d="M8 14v.5" />
+                                <path d="M16 14v.5" />
+                                <path d="M11.25 16.25h1.5L12 17l-.75-.75Z" />
+                                <path
+                                    d="M4.42 11.247A13.152 13.152 0 0 0 4 14.556C4 18.728 7.582 21 12 21s8-2.272 8-6.444c0-1.061-.162-2.2-.42-3.309" />
+                            </svg></span>
+                        الحيوانات
+                    </li>
+                </a>
+                <a href="./boarding.html">
+                    <li>
+                        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+                                <path
+                                    d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                            </svg></span>
+                        الإستضافات
+                    </li>
+                </a>
+                <a href="./sales.html">
+                    <li class="active"><span class="icon"><svg viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <circle cx="8" cy="21" r="1" />
+                                <circle cx="19" cy="21" r="1" />
+                                <path
+                                    d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+                            </svg></span> المبيعات</li>
+                </a>
+                <a href="./inventory.html">
+                    <li>
+                        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+                                <path d="M3.3 7 12 12l8.7-5" />
+                                <path d="M12 22V12" />
+                            </svg></span>
+                        المخزن
+                    </li>
+                </a>
+                <a href="./dashboard.html">
+                    <li>
+                        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+                                <path d="M18 17V9" />
+                                <path d="M13 17V5" />
+                                <path d="M8 17v-3" />
+                            </svg></span>التقارير
+                    </li>
+                </a>
+                <a href="./settings.html">
+                    <li>
+                        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg></span>الإعدادات
+                    </li>
+                </a>
+            </ul>
+        </aside>
+
+        <!-- Main content -->
+        <main class="content">
+            <div class="sales-page">
+
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">سجل المبيعات</h1>
+                        <p class="page-subtitle">راجع كل فواتير البيع السابقة</p>
+                    </div>
+                    <input type="search" id="searchInvoice" placeholder="بحث برقم الفاتورة..."
+                        style="width:280px;">
+                </div>
+
+                <div id="salesList" class="sales-list"></div>
+                <div id="pagination"></div>
+            </div>
+
+
+            <!-- DETAILS MODAL -->
+            <div id="invoiceModal" class="modal">
+
+                <div class="modal-content">
+
+                    <span class="close" onclick="closeInvoiceModal()">
+                        ×
+                    </span>
+
+                    <h3 id="invoiceNumber"></h3>
+
+                    <div id="invoiceInfo"></div>
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>المنتج</th>
+                                <th>الكمية</th>
+                                <th>السعر</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="invoiceItems"></tbody>
+
+                    </table>
+
+                    <div class="invoice-total">
+                        الإجمالي :
+                        <span id="invoiceTotal"></span>
+                    </div>
+
+                    <!-- <div class="actions">
+
+                        <button onclick="printInvoice()">
+                            🖨 إعادة الطباعة
+                        </button>
+
+                        <button class="danger">
+                            ↩ مرتجع
+                        </button>
+
+                    </div> -->
+
+                </div>
+
+            </div>
+        </main>
+    </div>
+    <script src="./sales-history.js"></script>
+</body>
+
+</html>

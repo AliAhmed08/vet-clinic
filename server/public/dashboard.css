@@ -1,0 +1,145 @@
+@import url("./style.css");
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    border-radius: 18px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: white;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .08);
+}
+
+.card-icon {
+    font-size: 32px;
+    background: rgba(255, 255, 255, .15);
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+}
+
+.card-info p {
+    margin: 0;
+    font-size: 14px;
+    opacity: .9;
+}
+
+.card-info h2 {
+    margin-top: 8px;
+    font-size: 28px;
+}
+
+.blue {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+.green {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.orange {
+    background: linear-gradient(135deg, #f59e0b, #ea580c);
+}
+
+.purple {
+    background: linear-gradient(135deg, #a855f7, #7e22ce);
+}
+
+.charts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.chart-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, .06);
+}
+
+
+.chart-card h3 {
+    color: #333;
+    margin: 15px 0 35px;
+    font-size: 18px;
+    text-align: center;
+}
+
+canvas {
+    max-height: 320px;
+}
+
+#profitChart,
+#topProductsChart {
+    margin-top: 20px;
+}
+
+.profit-row,
+.product-row,
+.animal-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 18px 0;
+}
+
+.profit-value,
+.product-value,
+.animal-value {
+    width: 80px;
+    font-weight: 700;
+    font-size: 16px;
+    color: #111;
+    text-align: right;
+}
+
+.profit-month,
+.product-name,
+.animal-name {
+    width: 80px;
+    text-align: left;
+    font-size: 15px;
+    color: #666;
+}
+
+.profit-bar-wrapper,
+.product-bar-wrapper,
+.animal-bar-wrapper {
+    flex: 1;
+    height: 8px;
+    background: #edf1f5;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.profit-bar,
+.product-bar,
+.animal-bar {
+    height: 100%;
+    border-radius: 999px;
+
+    background: linear-gradient(90deg,
+            #1ea7ff 0%,
+            #17b6f5 40%,
+            #18c59b 100%);
+
+    transition: width .4s ease;
+}

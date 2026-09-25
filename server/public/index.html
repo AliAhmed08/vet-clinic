@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>إدارة الزيارات</title>
+    <link rel="stylesheet" href="./visits.css" />
+</head>
+
+<body>
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="./images/icon.png" alt="logo">
+            </div>
+            <ul class="menu">
+                <a href="./index.html">
+                    <li class="active">
+                        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M8 19a4 4 0 0 1-4-4V6a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v3a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V6a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v9a4 4 0 0 1-4 4Z" />
+                                <circle cx="8" cy="19" r="2" />
+                                <circle cx="16" cy="19" r="2" />
+                            </svg></span>
+                        الزيارات
+                    </li>
+                </a>
+                <a href="./vaccinations.html">
+                    <li>
+                        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m18 2 4 4" />
+                                <path d="m17 7 3-3" />
+                                <path
+                                    d="M19 9 8.7 19.3c-1 1-2.5 1-3.4 0l-.6-.6c-1-1-1-2.5 0-3.4L15 5" />
+                                <path d="m9 11 4 4" />
+                                <path d="m5 19-1.5 1.5" />
+                                <path d="m14.5 3.5 6 6" />
+                            </svg></span>
+                        التطعيمات
+                    </li>
+                </a>
+                <a href="./animals.html">
+                    <li>
+                        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M10 5.172C10 3.782 8.423 2.679 6.5 3c-2.823.47-4.113 6.006-4 7 .08.703 1.725 1.722 3.656 1 1.261-.472 1.96-1.45 2.344-2.344" />
+                                <path d="M14.267 5.172c0-1.39 1.577-2.493 3.5-2.172 2.823.47 4.113 6.006 4 7-.08.703-1.725 1.722-3.656 1-1.261-.472-1.855-1.45-2.239-2.344" />
+                                <path d="M8 14v.5" />
+                                <path d="M16 14v.5" />
+                                <path
+                                    d="M11.25 16.25h1.5L12 17l-.75-.75Z" />
+                                <path
+                                    d="M4.42 11.247A13.152 13.152 0 0 0 4 14.556C4 18.728 7.582 21 12 21s8-2.272 8-6.444c0-1.061-.162-2.2-.42-3.309" />
+                            </svg></span>
+                        الحيوانات
+                    </li>
+                </a>
+                <a href="./boarding.html">
+                    <li>
+                        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
+                                <path
+                                    d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                            </svg></span>
+                        الإستضافات
+                    </li>
+                </a>
+                <a href="./sales.html">
+                    <li>
+                        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="8" cy="21" r="1" />
+                                <circle cx="19" cy="21" r="1" />
+                                <path
+                                    d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+                            </svg></span>
+                        المبيعات
+                    </li>
+                </a>
+                <a href="./inventory.html">
+                    <li>
+                        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z" />
+                                <path d="M3.3 7 12 12l8.7-5" />
+                                <path d="M12 22V12" />
+                            </svg></span>
+                        المخزن
+                    </li>
+                </a>
+                <a href="./dashboard.html">
+                    <li>
+                        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+                                <path d="M18 17V9" />
+                                <path d="M13 17V5" />
+                                <path d="M8 17v-3" />
+                            </svg></span>
+                        التقارير
+                    </li>
+                </a>
+                <a href="./settings.html">
+                    <li>
+                        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path
+                                    d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg></span>
+                        الإعدادات
+                    </li>
+                </a>
+            </ul>
+        </aside>
+
+
+        <!-- Main content -->
+        <main class="content">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">الزيارات</h1>
+                    <p class="page-subtitle">سجّل زيارة جديدة أو راجع سجل الزيارات السابقة</p>
+                </div>
+            </div>
+
+            <!-- إضافة زيارة جديدة -->
+            <div class="card">
+                <h2>إضافة زيارة جديدة</h2>
+                <form id="visitForm" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="field">
+                            <label>الحيوان</label>
+                            <div class="searchable-select-wrapper" style="display:flex; gap:8px;">
+                                <input type="text" id="animalSearchInput"
+                                    placeholder="ابحث باسم العميل / رقم الهاتف / اسم الحيوان" required />
+                                <ul id="animalSearchResults" class="search-results"></ul>
+                                <select id="animal_id" style="display:none;"></select>
+                                <button type="button" id="newAnimalBtn" title="تسجيل حيوان جديد">➕</button>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>نوع الحيوان</label>
+                            <input type="text" id="type" disabled />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="field">
+                            <label>اسم صاحب الحيوان</label>
+                            <input type="text" id="owner" disabled />
+                        </div>
+                        <div class="field">
+                            <label>رقم الهاتف</label>
+                            <input type="tel" id="phone" disabled />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="field">
+                            <label for="images">صور الزيارة (أشعة / تحاليل)</label>
+                            <div class="file-input-wrapper">
+                                <input type="file" id="images" class="native-file-input" multiple accept="image/*">
+                                <span class="file-name" id="file-name">لم يتم اختيار ملف</span>
+                                <label for="images" class="btn-primary">اختر الصور</label>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label>إضافة منتج (دواء / مستلزمات)</label>
+                            <div class="file-input-wrapper">
+                                <span class="file-name" id="visitProducts">لم يتم اختيار منتج</span>
+                                <label onclick="openProductModal()" type="button" class="btn-primary">اختر
+                                    منتج</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="field">
+                            <label>سعر الزيارة</label>
+                            <input id="price" type="number" required />
+                        </div>
+
+                        <div class="field">
+                            <label>تاريخ الزيارة</label>
+                            <input type="date" id="date" required />
+                        </div>
+                        <div class="field">
+                            <label>ملاحظات</label>
+                            <textarea rows="2" id="notes"></textarea>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary" type="submit">حفظ الزيارة</button>
+                </form>
+            </div>
+
+            <!-- سجل الزيارات -->
+            <div class="card">
+                <h2>سجل الزيارات</h2>
+                <div class="row">
+                    <input type="search" id="searchInput"
+                        placeholder="ابحث باسم العميل / رقم الهاتف / اسم الحيوان / النوع">
+                    <div class="field" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                        <label style="margin:0;">من:</label>
+                        <input type="date" id="dateFrom" />
+
+                        <label style="margin:0;">إلى:</label>
+                        <input type="date" id="dateTo" />
+                        <button onclick="clearArchiveFilters()" class="clear">مسح الفلاتر</button>
+                    </div>
+                </div>
+
+                <table id="visitsTable">
+                    <thead>
+                        <tr>
+                            <th style="border-radius: 0 8px 0 0;">الحيوان</th>
+                            <th>العميل</th>
+                            <th>السعر</th>
+                            <th>التاريخ</th>
+                            <th></th>
+                            <th style="border-radius: 8px 0 0 0;"></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="table-footer">
+                    <div id="pagination"></div>
+                </div>
+            </div>
+
+            <!-- Modals -->
+
+            <div id="visitProductModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeProductModal()">×</span>
+
+                    <h2>🛒 اختر المنتجات</h2>
+
+                    <input type="search" id="modalSearch" placeholder="🔍 ابحث عن منتج..." />
+
+                    <div id="productsGrid" class="products-grid"></div>
+                </div>
+            </div>
+
+            <div id="animalFile" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="closeAnimalFile">×</span>
+                    <div id="animalInfo"></div>
+                    <hr>
+                    <h3>🩺 الزيارات</h3>
+                    <div id="visitsList" class="visits-grid"></div>
+                    <h3>💉 التطعيمات</h3>
+                    <div id="vaccinationsList" class="vaccinations-grid"></div>
+                </div>
+            </div>
+
+            <div id="allVisitsModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="closeVisits">×</span>
+                    <h3>جميع الزيارات</h3>
+                    <div id="allVisitsList" class="visits-grid"></div>
+                </div>
+            </div>
+
+            <div id="animalModal" class="modal">
+                <div class="modal-content">
+                    <form id="animalForm">
+
+                        <h3>👤 معلومات المالك</h3>
+
+                        <div class="form-group">
+                            <input id="new_owner" required />
+                            <label for="new_owner" class="required-label"> اسم المالك</label>
+                        </div>
+
+                        <div class="form-group">
+                            <input id="new_phone" pattern="^01[0-9]{9}$" required />
+                            <label for="new_phone" class="required-label">رقم الهاتف</label>
+                        </div>
+
+                        <h3>🐾 معلومات الحيوان</h3>
+
+                        <div class="form-group">
+                            <input id="new_animal_name" required />
+                            <label for="new_animal_name" class="required-label"> اسم الحيوان</label>
+                        </div>
+
+                        <div class="form-group">
+                            <select id="new_animal_type" required>
+                                <option value="" disabled selected hidden></option>
+                                <option>قطة</option>
+                                <option>كلب</option>
+                                <option>أرنب</option>
+                                <option>طائر</option>
+                                <option>زواحف</option>
+                                <option>قارض</option>
+                                <option>آخر</option>
+                            </select>
+                            <label for="new_animal_type" class="required-label"> النوع</label>
+                        </div>
+
+                        <div class="form-group">
+                            <select id="new_animal_gender" required>
+                                <option value="" disabled selected hidden></option>
+                                <option>ذكر</option>
+                                <option>انثي</option>
+                            </select>
+                            <label for="new_animal_gender" class="required-label"> الجنس</label>
+                        </div>
+
+                        <div class="form-group">
+                            <input id="new_animal_breed" />
+                            <label for="new_animal_breed"> الفصيلة</label>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="number" id="new_animal_weight" step="0.1" min="0" />
+                            <label for="new_animal_weight"> الوزن (كجم)</label>
+                        </div>
+
+                        <div class="form-group">
+                            <input id="new_animal_color" />
+                            <label for="new_animal_color"> اللون</label>
+                        </div>
+
+                        <div class="form-group">
+                            <input id="new_animal_bd" type="date" />
+                            <label for="new_animal_bd"> تاريخ الميلاد</label>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="spayed-toggle">
+                                <input type="radio" id="spayed_yes" name="is_spayed" value="true" required />
+                                <label for="spayed_yes">نعم</label>
+                                <input type="radio" id="spayed_no" name="is_spayed" value="false" required />
+                                <label for="spayed_no">لا</label>
+
+                            </div>
+                            <label class="required-label">هل تم التعقيم ؟ </label>
+                        </div>
+
+                        <div class="modal-actions">
+                            <button id="saveAnimal" type="submit">حفظ</button>
+                            <button id="cancelAnimal" class="cancel" type="button">إلغاء</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Image Lightbox Modal -->
+            <div id="imageModal" class="modal">
+                <span id="closeImageModal"><img src="./images/close.png"></span>
+                <div class="lightbox-content">
+                    <button id="prevImage" class="nav-btn">❮</button>
+                    <img id="lightboxImage" src="" />
+                    <button id="nextImage" class="nav-btn">❯</button>
+                </div>
+            </div>
+
+            <div id="confirmModal" class="modal">
+                <div class="modal-content">
+                    <p id="confirmP"></p>
+                    <button id="confirmDelete">حذف</button>
+                    <button id="cancelDelete" class="cancel">إلغاء</button>
+                </div>
+            </div>
+            <div id="invoiceModal" class="modal">
+
+                <div class="invoice-wrapper">
+
+                    <span id="closeInvoice" class="close">×</span>
+
+                    <div id="invoiceContent">
+
+                        <div class="invoice">
+
+                            <div class="invoice-header">
+                                <h2 id="clinicName"></h2>
+                                <img src="./images/pawprint.png" alt="" id="clinicLogo">
+                            </div>
+
+                            <div class="invoice-info">
+
+                                <div>
+                                    <p>
+                                        <b>الحيوان : </b>
+                                        <span id="invoiceAnimal"></span>
+                                    </p>
+
+                                    <p>
+                                        <b>العميل : </b>
+                                        <span id="invoiceOwner"></span>
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <p>
+                                        <b>التاريخ : </b>
+                                        <span id="invoiceDate"></span>
+                                    </p>
+
+                                    <p>
+                                        <b>الوقت : </b>
+                                        <span id="invoiceTime"></span>
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            <table>
+
+                                <thead>
+                                    <tr>
+                                        <th>الخدمة</th>
+                                        <th>الكمية</th>
+                                        <th>السعر</th>
+                                        <th>الإجمالي</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="invoiceItems"></tbody>
+
+                            </table>
+
+                            <h3 id="invoiceTotal"></h3>
+
+                            <div class="invoice-footer">
+                                <p id="clinicAddress"></p>
+                                <p id="clinicPhone"></p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <button id="printInvoiceBtn">
+                        طباعة 🖨️
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- Toast -->
+            <div id="toast" class="toast"></div>
+
+        </main>
+    </div>
+
+    <script src="./visits.js"></script>
+</body>
+
+</html>

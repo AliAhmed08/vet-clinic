@@ -1,0 +1,337 @@
+@import url("./style.css");
+
+/* ==========================================================================
+   Extends the shared design system for: Visits, Vaccinations, Reminders
+   ========================================================================== */
+
+#newAnimalBtn {
+    background: var(--primary-light);
+    border: 1px solid var(--primary-soft-border);
+    color: var(--primary);
+    font-weight: 700;
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    transition: background var(--t-fast) var(--ease), transform var(--t-fast) var(--ease);
+    width: 42px;
+    font-size: 15px;
+}
+
+#newAnimalBtn:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.done-btn {
+    border-radius: var(--r-sm);
+    border: none;
+    background-color: var(--success-light);
+    color: var(--success);
+    padding: 7px 12px;
+    cursor: pointer;
+    transition: background var(--t-fast) var(--ease), color var(--t-fast) var(--ease);
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.done-btn:hover {
+    background-color: var(--success);
+    color: white;
+}
+
+.remind-btn {
+    margin-top: 10px;
+    width: 80%;
+    padding: 9px;
+    border: none;
+    background: var(--primary);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    transition: background var(--t-fast) var(--ease);
+}
+
+.remind-btn:hover {
+    background: var(--primary-hover);
+}
+
+.remind-btn:active {
+    background: var(--primary-press);
+}
+
+.custom-file-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--text-primary);
+    text-align: right;
+    direction: rtl;
+}
+
+.file-input-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 4px 10px;
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--r-sm);
+    background-color: var(--surface-alt);
+    flex-direction: row;
+}
+
+.native-file-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    z-index: -1;
+}
+
+.file-name {
+    flex: 1;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.custom-file-button,
+#chooseProduct {
+    padding: 6px 12px;
+    background-color: var(--primary);
+    color: white;
+    border-radius: var(--r-sm);
+    border: none;
+    cursor: pointer;
+    transition: background-color var(--t-fast) var(--ease);
+    text-align: center;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.custom-file-button:hover,
+#chooseProduct:hover {
+    background-color: var(--primary-hover);
+}
+
+.modal-content {
+    margin: 10px auto;
+}
+
+.modal-content.large {
+    width: 90%;
+    max-width: 900px;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 14px;
+    margin-top: 16px;
+}
+
+.product-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 14px;
+    box-shadow: var(--shadow-xs);
+    text-align: center;
+    transition: transform var(--t-base) var(--ease), box-shadow var(--t-base) var(--ease), border-color var(--t-base) var(--ease);
+}
+
+.product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--primary-soft-border);
+}
+
+.product-card img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: var(--r-sm);
+    background: var(--surface-sunken);
+}
+
+.product-card input {
+    width: 56px;
+    margin: 6px 0;
+    text-align: center;
+}
+
+.product-card p {
+    margin: 3px 0;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.product-card button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 7px 14px;
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: background var(--t-fast) var(--ease);
+}
+
+.product-card button:hover {
+    background: var(--primary-hover);
+}
+
+.out {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.deleteProduct {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Vaccination table */
+.vaccination-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    direction: rtl;
+    text-align: right;
+    background-color: var(--surface);
+}
+
+.vaccine-row {
+    border-bottom: 1px solid var(--border);
+    transition: background-color var(--t-fast) var(--ease);
+}
+
+.vaccine-row:hover {
+    background-color: var(--surface-sunken);
+}
+
+/* Status colors */
+.status-ok {
+    color: var(--success);
+    font-weight: 700;
+}
+
+.status-soon {
+    color: var(--warning);
+    font-weight: 700;
+}
+
+.status-today {
+    color: var(--info);
+    font-weight: 700;
+}
+
+.status-late {
+    color: var(--danger);
+    font-weight: 700;
+}
+
+.status-ok-text {
+    color: var(--success);
+}
+
+.status-soon-text {
+    color: var(--warning);
+    font-weight: 600;
+}
+
+.status-today-text {
+    color: var(--info);
+    font-weight: 600;
+}
+
+.status-late-text {
+    color: var(--danger);
+    font-weight: 600;
+}
+
+.animal-name-text {
+    color: var(--text-primary);
+}
+
+.animal-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.animal-type-icon {
+    font-size: 1.2rem;
+}
+
+.delayed-text {
+    color: var(--danger) !important;
+    font-weight: 700;
+}
+
+.upcoming-text {
+    color: var(--warning) !important;
+    font-weight: 700;
+}
+
+.alert-icon-warning {
+    color: var(--danger);
+    margin-left: 4px;
+    font-size: 1rem;
+}
+
+.alert-icon-bell {
+    color: var(--warning);
+    margin-left: 4px;
+    font-size: 1rem;
+}
+
+.actions-cell {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.actions-cell .done-btn {
+    background: var(--surface-sunken);
+    border: none;
+    color: var(--text-secondary);
+    padding: 6px 12px;
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 12.5px;
+}
+
+.actions-cell .done-btn:hover {
+    background: var(--success);
+    color: white;
+}
+
+.actions-cell .delete-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    opacity: 0.55;
+    transition: opacity var(--t-fast) var(--ease);
+}
+
+.actions-cell .delete-btn:hover {
+    opacity: 1;
+}
+
+.no-data {
+    text-align: center;
+    color: var(--text-tertiary);
+    padding: 40px !important;
+    font-size: 14px;
+}

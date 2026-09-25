@@ -1,0 +1,141 @@
+@import url("./style.css");
+
+
+.page-header input {
+    margin: 5px 0 20px;
+    width: 350px;
+    height: 40px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+}
+
+.sales-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+    gap: 12px;
+}
+
+.sale-card {
+    background: white;
+    border-radius: 14px;
+    padding: 16px;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
+
+    transition: .2s;
+}
+
+.sale-card:hover {
+    transform: translateY(-2px);
+}
+
+.sale-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sale-number {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.sale-date {
+    color: #888;
+    font-size: 13px;
+}
+
+.sale-total {
+    font-size: 18px;
+    font-weight: bold;
+    color: #2196f3;
+}
+
+/* MODAL */
+
+.modal {
+    display: none;
+
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0, 0, 0, .5);
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 999;
+}
+
+.modal-content {
+    width: 700px;
+    max-width: 95%;
+
+    background: white;
+    border-radius: 16px;
+
+    padding: 30px;
+}
+
+.close {
+    float: left;
+    cursor: pointer;
+    font-size: 28px;
+}
+
+.modal table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+th {
+    background-color: #f8fafc;
+    /* color: #64748b; */
+    font-weight: 600;
+    padding: 14px 20px;
+    font-size: 0.95rem;
+    border-bottom: 0.5px solid;
+}
+
+td {
+    padding: 16px 20px;
+    color: #334155;
+    font-size: 0.95rem;
+    vertical-align: middle;
+}
+
+.invoice-total {
+    margin-top: 30px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.actions button {
+    border: none;
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.actions button:first-child {
+    background: #2196f3;
+    color: white;
+}
+
+.actions .danger {
+    background: #f44336;
+    color: white;
+}

@@ -1,0 +1,74 @@
+@import url("./style.css");
+
+.settings-card {
+    max-width: 700px;
+    margin: auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 14px;
+}
+
+.settings-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.settings-card input,
+.settings-card textarea {
+    padding: 10px;
+}
+
+.logo-preview {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    align-self: center;
+}
+
+.settings-card button {
+    width: 100%;
+    padding: 12px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.2s;
+}
+
+.settings-card button:hover {
+    background: #49b1f7;
+}
+
+input[type="file"]::file-selector-button {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: 15px;
+    transition: 0.2s;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: #49b1f7;
+}
+
+#backupBtn {
+    position: fixed;
+    text-align: center;
+    background: none;
+    border: none;
+    font-size: 15px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    bottom: 20px;
+    right: 10px;
+}

@@ -1,0 +1,313 @@
+@import url("./style.css");
+
+#productSearch {
+    width: 40%;
+    padding: 12px;
+    border-radius: 15px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.category-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: center;
+    direction: rtl;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    background-color: #f8f9fa;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+    background-color: #e2e6ea;
+}
+
+.tab-btn.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
+}
+
+.addBatch {
+    border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #2563eb;
+    color: #fff;
+    float: left;
+    margin-bottom: 15px;
+}
+
+.addBatch:hover {
+    background: #49b1f7;
+}
+
+.addBatch:active {
+    background: #2563eb;
+}
+
+/* ===== BATCHES GRID ===== */
+#batchesTable {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+/* ===== BATCH CARD ===== */
+.batch-card {
+    background: #f8f9fa;
+    border-radius: 14px;
+    padding: 12px;
+    border: 1px solid #eee;
+    transition: 0.2s;
+}
+
+.batch-card:hover {
+    transform: translateY(-3px);
+}
+
+/* expired */
+.batch-card.expired {
+    background: #fff5f5;
+    border-color: #ffcccc;
+}
+
+/* low stock */
+.batch-card.low {
+    border: 3px solid orange;
+}
+
+/* ===== TEXT ===== */
+.batch-card span {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+/* ===== BUTTON ===== */
+.batch-card button {
+    width: 100%;
+    margin-top: 8px;
+    padding: 6px;
+    border: none;
+    border-radius: 8px;
+    background: #3498db;
+    color: white;
+    cursor: pointer;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 15px;
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+    gap: 15px;
+}
+
+/* CARD */
+.product-card {
+    padding: 13px;
+    background: white;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    transition: 0.2s;
+}
+
+.product-card:hover {
+    transform: translateY(-3px);
+}
+
+.product-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 5px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.stock {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+#productDetailsModal .modal-content {
+    padding: 15px;
+    max-width: 450px;
+    width: 90%;
+}
+
+#productDetailsModal label {
+    display: none;
+    flex-direction: row;
+    margin: 20px 0;
+}
+
+#productDetailsModal label input {
+    width: 70px;
+}
+
+#productStats {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+#expBatches,
+#showEmptyBatches {
+    cursor: pointer;
+}
+
+.product-card.empty {
+    opacity: 0.6;
+}
+
+.batch-card.empty {
+    opacity: 0.4;
+}
+
+.batch-card.expired {
+    background-color: red;
+    color: white;
+}
+
+.batch-card.expired button {
+    background-color: transparent;
+    transition: 0.2s;
+}
+
+.batch-card.expired button:hover {
+    background-color: rgb(196, 0, 0);
+}
+
+input[type="file"]::file-selector-button {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: 15px;
+    transition: 0.2s;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: #49b1f7;
+}
+
+.alert-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: filter 0.2s ease;
+    position: fixed;
+    top: 35px;
+    left: 40px;
+}
+
+.alert-btn img {
+    width: 45px;
+}
+
+.alert-btn:hover {
+    filter: brightness(1.1);
+}
+
+.alert-btn span {
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    background: red;
+    color: white;
+    font-size: 10px;
+    padding: 3px 6px;
+    border-radius: 50%;
+    font-weight: bold;
+    min-width: 18px;
+    text-align: center;
+}
+
+.alert-modal {
+    width: 400px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.alert-card {
+    background: #fff5f5;
+    border: 1px solid #ffccc7;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: 0.2s;
+}
+
+.alert-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+}
+
+.alert-card h4 {
+    margin: 0;
+    color: #cf1322;
+}
+
+.alert-stock {
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.alert-section {
+    margin-top: 20px;
+}
+
+.alert-section h3 {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.alert-empty {
+    text-align: center;
+    color: #888;
+    font-size: 14px;
+}
+
+.expired {
+    background: #fff1f0;
+    border: 2px solid red;
+}
+
+.expiring {
+    background: #fffbe6;
+    border: 2px solid orange;
+}
+
+.alert-card.critical {
+    background: #fff1f0;
+    border-color: red;
+}

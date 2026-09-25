@@ -1,0 +1,37 @@
+@import url("./style.css");
+
+/* ==========================================================================
+   Boarding archive — extra layout on top of the shared design system
+   ========================================================================== */
+
+#archiveH1 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.archive-controls {
+    margin-bottom: 18px;
+}
+
+.archive-controls .row {
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.archive-controls .field {
+    margin-bottom: 0;
+}
+
+.archive-controls .field label {
+    display: inline-block;
+    margin: 0 4px 0 0;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 13.5px;
+}
+
+#modal .modal-content {
+    width: 650px;
+    max-width: 90vw;
+}
