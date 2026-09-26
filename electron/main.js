@@ -29,7 +29,7 @@ async function checkAndNotifyReminders() {
     }
 }
 
-require("../server/server.js");
+const server = require("../server/server.js");
 
 function createWindow() {
     mainWindow = new BrowserWindow({
@@ -54,8 +54,17 @@ function createWindow() {
 }
 
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
     Menu.setApplicationMenu(null);
+
+    // Wait for the Express server (and its DB migrations) to actually be
+    // listening before pointing the BrowserWindow at it. Previously the
+    // window loaded http://localhost:3000 immediately, racing the async
+    // initDatabase()/app.listen() call in server.js - on a slower machine
+    // or a large migration this produced "fetch failed" / ECONNREFUSED on
+    // first load.
+    await server.ready;
+
     createWindow()
     setTimeout(() => {
         checkAndNotifyReminders();

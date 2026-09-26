@@ -977,6 +977,32 @@ async function initDatabase() {
 
     }
 
+    /* =====================================================
+    MIGRATION V5
+    Add missing "supplier" column to inventory_batches
+    (routes/inventoryRoutes.js has always written this column,
+    but no migration ever created it, so every "add stock" and
+    "adjust batch" request was failing with a SQL error).
+====================================================== */
+
+    if (version < 5) {
+
+      console.log("Running Migration V5...");
+
+      await safeAddColumn(
+        "inventory_batches",
+        "supplier",
+        "TEXT"
+      );
+
+      version = 5;
+
+      await setVersion(version);
+
+      console.log("Migration V5 completed.");
+
+    }
+
     await run("COMMIT");
 
   } catch (err) {
@@ -989,5 +1015,8 @@ async function initDatabase() {
 }
 module.exports = {
   db,
-  initDatabase
+  initDatabase,
+  run,
+  get,
+  all
 };

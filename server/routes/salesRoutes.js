@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { db } = require("../db/db");
+const salesService = require("../services/salesService");
+const { withDbLock } = require("../services/db-mutex");
 
 router.get("/", (req, res) => {
 
@@ -68,76 +70,30 @@ router.get("/", (req, res) => {
 
 });
 
+// Sale creation is now a single real SQLite transaction (BEGIN/COMMIT/
+// ROLLBACK) performed by salesService.createSale, instead of manual
+// compensating deletes after the fact - see server/services/salesService.js.
 router.post("/", async (req, res) => {
     const { items, reference_type } = req.body;
 
-    let total = 0;
-
-    const created_at = new Date().toISOString();
-
     try {
-        // 1. create sale
-        const sale = await new Promise((resolve, reject) => {
-            db.run(
-                "INSERT INTO sales (total_amount, created_at) VALUES (0, ?)",
-                [created_at],
-                function (err) {
-                    if (err) reject(err);
-                    else resolve(this.lastID);
-                }
-            );
-        });
-
-        for (let item of items) {
-            const { product_id, quantity, sale_price } = item;
-
-            total += quantity * sale_price;
-
-            // 2. save sale item
-            await new Promise((resolve, reject) => {
-                db.run(`
-                    INSERT INTO sale_items 
-                    (sale_id, product_id, quantity, price)
-                    VALUES (?, ?, ?, ?)
-                `, [sale, product_id, quantity, sale_price], err => {
-                    if (err) reject(err);
-                    else resolve();
-                });
-            });
-
-
-            const stockRes = await fetch("http://localhost:3000/api/inventory/stock/use", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    product_id,
-                    quantity,
-                    reference_type: reference_type,
-                    reference_id: sale
-                })
-            });
-
-            if (!stockRes.ok) {
-                throw new Error("Failed to update stock");
-            }
-        }
-
-        // 4. update total
-        await new Promise((resolve, reject) => {
-            db.run(
-                "UPDATE sales SET total_amount=? WHERE id=?",
-                [total, sale],
-                err => err ? reject(err) : resolve()
-            );
-        });
+        const result = await withDbLock(() =>
+            salesService.createSale(items, reference_type)
+        );
 
         res.json({
             success: true,
-            id: sale
+            id: result.id
         });
 
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        const status = [
+            "INVALID_ITEMS",
+            "INSUFFICIENT_STOCK",
+            "PRODUCT_NOT_FOUND"
+        ].includes(err.code) ? 400 : 500;
+
+        res.status(status).json({ error: err.message });
     }
 });
 

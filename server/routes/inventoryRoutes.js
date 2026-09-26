@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { db } = require("../db/db");
+const { db, run, get } = require("../db/db");
+const { deductStock } = require("../services/stock");
+const { withDbLock } = require("../services/db-mutex");
 
 const multer = require("multer");
 const path = require("path");
@@ -179,7 +181,9 @@ router.put("/products/:id/deactivate", (req, res) => {
         `SELECT SUM(quantity) as total FROM inventory_batches WHERE product_id = ?`,
         [id],
         (err, row) => {
-            if (row.total > 0) {
+            if (err) return res.status(500).json({ error: err.message });
+
+            if (row && row.total > 0) {
                 return res.status(400).json({
                     error: "لا يمكن إلغاء التفعيل - يوجد مخزون"
                 });
@@ -228,14 +232,36 @@ router.put("/products/:id", upload.single("image"), (req, res) => {
 // ==============================
 // 📦 3. Add Stock (Batch)
 // ==============================
-router.post("/stock/add", (req, res) => {
+router.post("/stock/add", async (req, res) => {
     const { product_id, quantity, expiry_date, purchase_price, supplier } = req.body;
+
+    const qty = Number(quantity);
+    const price = purchase_price === undefined || purchase_price === null || purchase_price === ""
+        ? 0
+        : Number(purchase_price);
+
+    if (!product_id || !Number.isFinite(qty) || qty <= 0) {
+        return res.status(400).json({ error: "كمية غير صالحة" });
+    }
+
+    if (!Number.isFinite(price) || price < 0) {
+        return res.status(400).json({ error: "سعر شراء غير صالح" });
+    }
+
+    try {
+        const product = await get(`SELECT id FROM products WHERE id = ?`, [product_id]);
+        if (!product) {
+            return res.status(400).json({ error: "المنتج غير موجود" });
+        }
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
 
     db.run(
         `INSERT INTO inventory_batches 
         (product_id, quantity, expiry_date, purchase_price, supplier)
         VALUES (?, ?, ?, ?, ?)`,
-        [product_id, quantity, expiry_date, purchase_price || 0, supplier],
+        [product_id, qty, expiry_date, price, supplier],
         function (err) {
             if (err) return res.status(500).json({ error: err.message });
 
@@ -245,7 +271,7 @@ router.post("/stock/add", (req, res) => {
                 `INSERT INTO inventory_transactions 
                 (product_id, batch_id, transaction_type, reference_type, quantity)
                 VALUES (?, ?, 'add', 'inventory', ?)`,
-                [product_id, batchId, quantity],
+                [product_id, batchId, qty],
                 (err2) => {
                     if (err2) return res.status(500).json({ error: err2.message });
 
@@ -280,91 +306,67 @@ router.get("/stock/:product_id", (req, res) => {
 // ==============================
 // 🔴 5. Use Stock (FIFO)
 // ==============================
-router.post("/stock/use", (req, res) => {
+router.post("/stock/use", async (req, res) => {
     const { product_id, quantity, reference_type, reference_id } = req.body;
 
-    let remaining = quantity;
+    try {
+        await withDbLock(async () => {
+            await run("BEGIN TRANSACTION");
 
-    db.get(
-        `SELECT sale_price FROM products WHERE id = ?`,
-        [product_id],
-        (err, product) => {
+            try {
+                await deductStock({ product_id, quantity, reference_type, reference_id });
+                await run("COMMIT");
+            } catch (err) {
+                await run("ROLLBACK").catch(() => {});
+                throw err;
+            }
+        });
 
-            if (err) return res.status(500).json({ error: err.message });
+        res.json({ success: true });
 
-            db.all(
-                `SELECT * FROM inventory_batches 
-                 WHERE product_id = ? AND quantity > 0
-                 ORDER BY expiry_date ASC`,
-                [product_id],
-                (err, batches) => {
+    } catch (err) {
+        const status = [
+            "INVALID_QUANTITY",
+            "INSUFFICIENT_STOCK",
+            "PRODUCT_NOT_FOUND"
+        ].includes(err.code) ? 400 : 500;
 
-                    if (err) return res.status(500).json({ error: err.message });
-
-                    if (!batches.length) {
-                        return res.status(400).json({ error: "No stock available" });
-                    }
-
-                    const processBatch = (index) => {
-
-                        if (remaining > 0 && index >= batches.length) {
-                            return res.status(400).json({ error: "المخزون غير كافي" });
-                        }
-
-                        if (remaining <= 0) {
-                            return res.json({ success: true });
-                        }
-
-                        let batch = batches[index];
-                        let deduct = Math.min(batch.quantity, remaining);
-
-                        let profit = deduct * (product.sale_price - batch.purchase_price);
-
-                        db.run(
-                            `UPDATE inventory_batches 
-                             SET quantity = quantity - ? 
-                             WHERE id = ?`,
-                            [deduct, batch.id],
-                            (err) => {
-
-                                if (err) return res.status(500).json({ error: err.message });
-
-                                db.run(
-                                    `INSERT INTO inventory_transactions
-                                    (product_id, batch_id, transaction_type, quantity, reference_type, reference_id, profit)
-                                    VALUES (?, ?, 'use', ?, ?, ?, ?)`,
-                                    [product_id, batch.id, deduct, reference_type, reference_id, profit]
-                                );
-
-                                remaining -= deduct;
-                                processBatch(index + 1);
-                            }
-                        );
-                    };
-
-                    processBatch(0);
-                }
-            );
-        }
-    );
+        res.status(status).json({ error: err.message });
+    }
 });
 
 router.post("/batch/adjust", (req, res) => {
     const { purchase_price, expiry_date, quantity, supplier, batch_id } = req.body;
+
+    const qty = Number(quantity);
+    const price = purchase_price === undefined || purchase_price === null || purchase_price === ""
+        ? 0
+        : Number(purchase_price);
+
+    if (!batch_id) {
+        return res.status(400).json({ error: "معرّف الدفعة مطلوب" });
+    }
+    if (!Number.isFinite(qty) || qty < 0) {
+        return res.status(400).json({ error: "كمية غير صالحة" });
+    }
+    if (!Number.isFinite(price) || price < 0) {
+        return res.status(400).json({ error: "سعر شراء غير صالح" });
+    }
 
     db.get(`SELECT quantity, product_id FROM inventory_batches WHERE id=?`,
         [batch_id],
         (err, batch) => {
 
             if (err) return res.status(500).json({ error: err.message });
+            if (!batch) return res.status(404).json({ error: "Batch not found" });
 
-            const diff = quantity - batch.quantity;
+            const diff = qty - batch.quantity;
 
             db.run(`
                 UPDATE inventory_batches 
                 SET purchase_price = ?, expiry_date = ?, quantity = ?, supplier = ?
                 WHERE id=?
-            `, [purchase_price, expiry_date, quantity, supplier, batch_id]);
+            `, [price, expiry_date, qty, supplier, batch_id]);
 
             // سجل transaction
             db.run(`

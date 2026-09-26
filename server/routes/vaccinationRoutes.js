@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { db } = require("../db/db");
+const { db, run } = require("../db/db");
+const { createSaleWithinTransaction } = require("../services/salesService");
+const { withDbLock } = require("../services/db-mutex");
 
 router.get("/", (req, res) => {
     const page = Number(req.query.page || 1);
@@ -75,59 +77,60 @@ router.get("/", (req, res) => {
 router.put("/:id/done", async (req, res) => {
     const { last_date, next_date, repeat_days, product_id, sale_price, animal_id } = req.body;
 
+    if (!product_id || !animal_id || !last_date || !next_date) {
+        return res.status(400).json({ error: "بيانات ناقصة" });
+    }
+
     try {
-        // 1. سجل في history
-        await new Promise((resolve, reject) => {
-            db.run(
-                `INSERT INTO vaccine_history (animal_id, product_id, date)
-                VALUES (?,?,?)`,
-                [animal_id, product_id, last_date],
-                err => err ? reject(err) : resolve()
-            );
-        });
+        // The sale (stock deduction), the vaccine_history row, and the
+        // vaccination update now all happen inside ONE real SQLite
+        // transaction, instead of an internal HTTP call to /api/sales
+        // followed by separate writes. If any part fails, everything is
+        // rolled back - there is no window where history/vaccination state
+        // can drift out of sync with what stock actually reflects.
+        await withDbLock(async () => {
+            await run("BEGIN TRANSACTION");
 
-        const stockRes = await fetch("http://localhost:3000/api/sales", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                items: [
-                    {
-                        product_id,
-                        quantity: 1,
-                        sale_price
-                    }
-                ],
-                reference_type: "vaccine"
-            })
-        });
+            try {
+                await createSaleWithinTransaction(
+                    [{ product_id, quantity: 1, sale_price }],
+                    "vaccine"
+                );
 
-        const stockResult = await stockRes.json();
+                await run(
+                    `INSERT INTO vaccine_history (animal_id, product_id, date)
+                    VALUES (?,?,?)`,
+                    [animal_id, product_id, last_date]
+                );
 
-        if (!stockRes.ok) {
-            return res.status(400).json({ error: stockResult.error });
-        }
+                await run(
+                    `UPDATE vaccinations 
+                     SET last_date = ?, next_date = ?, repeat_days = ?, notified = 0
+                     WHERE id = ?`,
+                    [last_date, next_date, repeat_days, req.params.id]
+                );
 
-        // 3. تحديث التطعيم
-        await new Promise((resolve, reject) => {
-            db.run(
-                `UPDATE vaccinations 
-                 SET last_date = ?, next_date = ?, repeat_days = ?, notified = 0
-                 WHERE id = ?`,
-                [last_date, next_date, repeat_days, req.params.id],
-                err => err ? reject(err) : resolve()
-            );
+                await run("COMMIT");
+            } catch (err) {
+                await run("ROLLBACK").catch(() => {});
+                throw err;
+            }
         });
 
         res.json({ success: true });
 
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        const status = [
+            "INVALID_ITEMS",
+            "INSUFFICIENT_STOCK",
+            "PRODUCT_NOT_FOUND"
+        ].includes(err.code) ? 400 : 500;
+
+        res.status(status).json({ error: err.message });
     }
 });
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
     const {
         animal_id,
         product_id,
@@ -141,57 +144,60 @@ router.post("/", (req, res) => {
         return res.status(400).json({ error: "بيانات ناقصة" });
     }
 
-    const sql = `
-        INSERT INTO vaccinations 
-        (animal_id, product_id, repeat_days, last_date, next_date)
-        VALUES (?, ?, ?, ?, ?)
-    `;
+    try {
+        // The vaccination row, the sale (stock deduction), and the
+        // vaccine_history row are now all written inside ONE real SQLite
+        // transaction. Previously the vaccination row was committed on its
+        // own, then a separate HTTP call to /api/sales could fail and only
+        // be "cleaned up" by a manual compensating DELETE - now a failure
+        // rolls back the vaccination insert as well, atomically.
+        const vaccinationId = await withDbLock(async () => {
+            await run("BEGIN TRANSACTION");
 
-    db.run(sql, [animal_id, product_id, repeat_days, last_date, next_date], async function (err) {
+            try {
+                const insertResult = await run(
+                    `INSERT INTO vaccinations 
+                    (animal_id, product_id, repeat_days, last_date, next_date)
+                    VALUES (?, ?, ?, ?, ?)`,
+                    [animal_id, product_id, repeat_days, last_date, next_date]
+                );
 
-        if (err) return res.status(500).json({ error: err.message });
+                const vaccinationId = insertResult.lastID;
 
-        const vaccinationId = this.lastID;
+                await createSaleWithinTransaction(
+                    [{ product_id, quantity: 1, sale_price }],
+                    "vaccine"
+                );
 
-        try {
-            const stockRes = await fetch("http://localhost:3000/api/sales", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    items: [
-                        {
-                            product_id,
-                            quantity: 1,
-                            sale_price
-                        }
-                    ],
-                    reference_type: "vaccine"
-                })
-            });
+                await run(
+                    `INSERT INTO vaccine_history (animal_id, product_id, date)
+                     VALUES (?, ?, ?)`,
+                    [animal_id, product_id, last_date]
+                );
 
-            const stockResult = await stockRes.json();
+                await run("COMMIT");
 
-            if (!stockRes.ok) {
-                return res.status(400).json({ error: stockResult.error });
+                return vaccinationId;
+            } catch (err) {
+                await run("ROLLBACK").catch(() => {});
+                throw err;
             }
+        });
 
-            db.run(
-                `INSERT INTO vaccine_history (animal_id, product_id, date)
-                 VALUES (?, ?, ?)`,
-                [animal_id, product_id, last_date]
-            );
+        res.json({
+            id: vaccinationId,
+            message: "تم إضافة التطعيم ",
+        });
 
-            res.json({
-                id: vaccinationId,
-                message: "تم إضافة التطعيم ",
-            });
+    } catch (err) {
+        const status = [
+            "INVALID_ITEMS",
+            "INSUFFICIENT_STOCK",
+            "PRODUCT_NOT_FOUND"
+        ].includes(err.code) ? 400 : 500;
 
-        } catch (err) {
-            res.status(500).json({ error: err.message });
-        }
-    });
+        res.status(status).json({ error: err.message });
+    }
 });
 
 

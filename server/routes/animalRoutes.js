@@ -27,7 +27,9 @@ router.post("/", (req, res) => {
     if (
         isEmpty(name) ||
         isEmpty(type) ||
+        isEmpty(breed) ||
         isEmpty(gender) ||
+        isEmpty(age) ||
         isEmpty(owner) ||
         isEmpty(phone)
     ) {
@@ -47,9 +49,9 @@ router.post("/", (req, res) => {
             type.trim(),
             breed.trim(),
             gender.trim(),
-            color.trim(),
+            (color || "").toString().trim() || null,
             age.trim(),
-            weight.trim(),
+            weight === undefined || weight === null || weight === "" ? null : Number(weight),
             is_spayed ? 1 : 0,
             owner.trim(),
             phone.trim()
@@ -246,7 +248,9 @@ router.put("/:id", (req, res) => {
     if (
         isEmpty(name) ||
         isEmpty(type) ||
+        isEmpty(breed) ||
         isEmpty(gender) ||
+        isEmpty(age) ||
         isEmpty(owner) ||
         isEmpty(phone)
     ) {
@@ -276,9 +280,9 @@ router.put("/:id", (req, res) => {
             type.trim(),
             breed.trim(),
             gender.trim(),
-            color.trim(),
+            (color || "").toString().trim() || null,
             age.trim(),
-            weight.trim(),
+            weight === undefined || weight === null || weight === "" ? null : Number(weight),
             is_spayed ? 1 : 0,
             owner.trim(),
             phone.trim(),
