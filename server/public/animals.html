@@ -251,6 +251,17 @@
                     المخزن
                 </li>
             </a>
+            <a href="./invoices.html">
+                <li>
+                    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="20" height="12" x="2" y="6" rx="2" />
+                            <circle cx="12" cy="12" r="2" />
+                            <path d="M6 12h.01M18 12h.01" />
+                        </svg></span>
+                    المديونات
+                </li>
+            </a>
             <a href="./dashboard.html">
                 <li>
                     <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -287,7 +298,12 @@
 
         <div class="card">
             <input type="search" id="searchInput" placeholder="ابحث باسم العميل / رقم الهاتف / اسم الحيوان / النوع">
-            <button id="addAnimalBtn">➕ إضافة حيوان</button>
+            <button id="addAnimalBtn"> إضافة حيوان <span class="icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M12 5v14M5 12h14" />
+                    </svg>
+                </span> </button>
 
             <div id="animalsGrid" class="animals-grid">
             </div>

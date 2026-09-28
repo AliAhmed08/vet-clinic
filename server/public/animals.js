@@ -240,7 +240,7 @@ function renderVisitsPreview(visits) {
             ${e.images && e.images !== "null" ? `
             <div class="visit-images">
                 ${e.images.split(",").map(img => `
-                    <img src="uploads/${img}" class="visit-thumb" data-img="${img}">
+                    <img src="app-data://uploads/${img}" class="visit-thumb" data-img="${img}">
                 `).join("")}
             </div>
             ` : ""}
@@ -264,7 +264,7 @@ function attachImageGallery(container) {
     container.querySelectorAll(".visit-thumb").forEach((img, index) => {
         img.onclick = () => {
             const visitCard = img.closest(".visit-card");
-            currentImages = Array.from(visitCard.querySelectorAll(".visit-thumb")).map(i => "uploads/" + i.dataset.img);
+            currentImages = Array.from(visitCard.querySelectorAll(".visit-thumb")).map(i => "app-data://uploads/" + i.dataset.img);
             currentIndex = Array.from(visitCard.querySelectorAll(".visit-thumb")).indexOf(img);
 
             lightboxImage.src = currentImages[currentIndex];
@@ -300,7 +300,7 @@ function openAllVisits(visits) {
         ${e.images && e.images !== "null" ? `
         <div class="visit-images">
             ${e.images.split(",").map(img => `
-                <img src="uploads/${img}" class="visit-thumb" data-img="${img}">
+                <img src="app-data://uploads/${img}" class="visit-thumb" data-img="${img}">
             `).join("")}
         </div>` : ""}
     </div>

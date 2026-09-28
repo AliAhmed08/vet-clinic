@@ -22,19 +22,19 @@
     --text-on-dark: #1E2233;
     --text-on-dark-muted: #5B6072;
 
-    /* Brand — indigo */
-    --primary: #4F46E5;
-    --primary-hover: #4338CA;
-    --primary-press: #3730A3;
-    --primary-light: #EEEDFC;
-    --primary-soft-border: #C7C4F5;
+    /* Brand — blue (matches MediTrack reference palette) */
+    --primary: #3568F0;
+    --primary-hover: #2452D9;
+    --primary-press: #1D3FB0;
+    --primary-light: #EEF4FF;
+    --primary-soft-border: #B9D1FD;
 
     /* Sidebar (white, like the reference) */
     --sidebar-bg: #FFFFFF;
     --sidebar-bg-elevated: #FFFFFF;
     --sidebar-border: #ECEDF5;
-    --sidebar-hover: #F2F1FC;
-    --sidebar-active: #4F46E5;
+    --sidebar-hover: #EEF4FF;
+    --sidebar-active: #3568F0;
 
     /* Status */
     --success: #1E9E63;
@@ -200,7 +200,7 @@ hr {
 .menu li.active {
     background: var(--sidebar-active);
     color: white;
-    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+    box-shadow: 0 4px 14px rgba(53, 104, 240, 0.35);
 }
 
 .menu a:has(li.active) {
@@ -598,7 +598,7 @@ textarea:disabled {
     bottom: 24px;
     left: 30px;
     border: none;
-    background: var(--text-primary);
+    background: var(--primary);
     color: white;
     font-size: 15px;
     font-weight: 700;
@@ -616,7 +616,7 @@ textarea:disabled {
 #archive:hover,
 #addAnimalBtn:hover,
 #addProductBtn:hover {
-    background: var(--primary);
+    background: var(--primary-hover);
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
 }

@@ -13,6 +13,7 @@ app.use("/api/boardings", require("./routes/boardingRoutes"));
 app.use("/api/inventory", require("./routes/inventoryRoutes"));
 app.use("/api/sales", require("./routes/salesRoutes"));
 app.use("/api/settings", require("./routes/settingsRoutes"));
+app.use("/api/supplier-invoices", require("./routes/supplierInvoiceRoutes"));
 
 app.get('/reminders', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/reminders.html'));

@@ -34,7 +34,7 @@ function renderArchive(data) {
                 <td>${row.end_date}</td>
                 <td>${row.total_days}</td>
                 <td>${row.total_cost} جنيه</td>
-                <td><button id="archiveDetails" onclick="openBoarding(${row.id})">بيانات الاستضافة</button></td>
+                <td><button class="btn-primary" onclick="openBoarding(${row.id})">بيانات الاستضافة</button></td>
             </tr>
         `).join('')
         : `<tr><td colspan="8">لا توجد نتائج</td></tr>`;

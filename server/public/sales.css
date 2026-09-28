@@ -58,7 +58,7 @@
     background-color: var(--primary);
     color: white;
     border-color: var(--primary);
-    box-shadow: 0 4px 10px rgba(79, 70, 229, .25);
+    box-shadow: 0 4px 10px rgba(53, 104, 240, .25);
 }
 
 .pos-header {

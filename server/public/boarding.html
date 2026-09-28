@@ -100,27 +100,6 @@
             padding: 16px 18px;
         }
 
-        #archiveDetails {
-            margin-top: 15px;
-            width: 80%;
-            padding: 9px;
-            border: none;
-            background: var(--primary);
-            color: #fff;
-            font-weight: bold;
-            border-radius: var(--r-sm);
-            cursor: pointer;
-            transition: background var(--t-fast) var(--ease);
-        }
-
-        #archiveDetails:hover {
-            background: var(--primary-hover);
-        }
-
-        #archiveDetails:active {
-            background: var(--primary-press);
-        }
-
         .modal-content {
             width: 700px;
         }
@@ -251,6 +230,17 @@
                     المخزن
                 </li>
             </a>
+            <a href="./invoices.html">
+                <li>
+                    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="20" height="12" x="2" y="6" rx="2" />
+                            <circle cx="12" cy="12" r="2" />
+                            <path d="M6 12h.01M18 12h.01" />
+                        </svg></span>
+                    المديونات
+                </li>
+            </a>
             <a href="./dashboard.html">
                 <li>
                     <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -333,7 +323,12 @@
         <div class="grid" id="roomsContainer"></div>
 
         <a href="./boarding-archive.html" id="archive">
-            <span>📁</span> أرشيف الاستضافات
+            أرشيف الاستضافات <span class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                </svg>
+            </span>
         </a>
 
         <form id="addRoomModal" class="modal">
